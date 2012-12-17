@@ -1,0 +1,49 @@
+﻿@using System.IO;
+<html>
+    <head>
+        <title>the 4chan drinking card game</title>
+        <style>
+        img
+        {
+            border: 0px;
+        }
+        </style>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    </head>
+    <body bgcolor=black text=white style="font-family:Verdana">
+        <meta name="viewport" content="user-scalable=yes, width=device-width, target-densityDpi=device-dpi, initial-scale=1.0" />
+        <center>
+            4chan drinking card game
+            <br/>
+            @if (Request["rules"] != null)
+            {
+                <text>
+                based on http://boards.4chan.org/b/res/301565766 <br />
+                and http://boards.4chan.org/b/res/301583775
+                <br />
+                <a href="/?card">
+                    <img src=img/rules/1294741995793.jpg>
+                    <img src=img/rules/1294742039733.jpg>
+                </a>
+                </text>
+            }
+            else if (Request["card"] != null)
+            {
+                var cards = Directory.GetFiles(Server.MapPath("~/img/cards")).Select(x => Path.GetFileName(x)).ToList();
+                var random = new Random();
+                    
+                var card = cards[random.Next(0, cards.Count)];
+                
+                <a href="/?card=1"><img bgcolor=black src="img/cards/@card"</a>
+            }
+            else
+            {
+                <a href="/?rules=1"><img src=img/main/deck.jpg></a>
+            }
+            <br />
+            <a href="/?main=1">[main]</a>
+            <a href="/?rules=1">[rules]</a>
+            <a href="/?card=1">[card]</a>
+        </center>
+    </body>
+</html>
